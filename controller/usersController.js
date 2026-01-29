@@ -22,7 +22,8 @@ const createUser = async (req, res, next) => {
 
     if (!firstname || !lastname || !email || !city || !job) {
         // return res.status(400).json({ status: "error", message: 'missing require fields' })
-        errors.mapError(404, "Missing require fields")
+        return errors.mapError(404, "Missing require fields")
+
     }
 
     try {
@@ -52,7 +53,7 @@ const getUserById = async (req, res, next) => {
             res.status(200).json({ status: "success", data: response.rows[0] })
         } else {
             // res.status(200).json({ status: "Failed", data: "Data not found" })
-            errors.mapError(404, "Find data not found", next)
+            return errors.mapError(404, "Find data not found", next)
         }
     } catch (err) {
         // res.status(500).json({ status: "error", message: err.message })
@@ -73,7 +74,7 @@ const updateUserById = async (req, res, next) => {
         if (response.rowCount > 0) {
             res.status(200).json({ status: "success", data: "Update data Success" })
         } else {
-            res.status(200).json({ status: "Failed", data: "Update failed" })
+            return res.status(200).json({ status: "Failed", data: "Update failed" })
         }
     } catch (err) {
         // res.status(500).json({ status: "error", message: err.message })
