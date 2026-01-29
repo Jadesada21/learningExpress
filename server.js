@@ -6,12 +6,7 @@ const port = process.env.PORT
 const morgan = require('morgan')
 
 
-
-// console.log(process.env)
-console.log('NODE_ENV:', process.env.NODE_ENV)
 console.log('PORT:', process.env.PORT)
-console.log('USERNAME:', process.env.USERNAME)
-console.log('PASSWORD:', process.env.PASSWORD)
 
 
 const studentsRouters = require('./router/students')
@@ -27,6 +22,12 @@ app.use(express.static('./public'))
 app.use('/api/v1/students', studentsRouters)
 app.use('/api/v1/users', usersRouters)
 
+app.use('/:path', (req, res) => {
+    res.status(404).json({
+        status: "Fail",
+        data: `Path ${req.originalUrl} not found in the server`
+    })
+})
 
 
 app.listen(port, () => {

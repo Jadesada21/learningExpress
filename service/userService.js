@@ -12,7 +12,6 @@ const getAllUsersService = async () => {
     }
 }
 
-
 const createUserService = async (body) => {
     try {
         let sql = `INSERT INTO public.customers
@@ -79,7 +78,6 @@ const deleteUserByIdService = async (id) => {
         console.error('updateUserByIdService error:', err)
         throw err
     }
-
 }
 
 const checkID2 = (req, res, next,) => {
