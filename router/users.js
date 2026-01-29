@@ -1,29 +1,17 @@
 const express = require('express')
 const router = express.Router()
+const userService = require('../service/userService')
 
+const { getAllUsers, createUser, getUserById, updateUserById, deleteUserById }
+    = userService
 
-const getAllUsers = (req, res) => {
-    res.status(200).json({ status: "success", data: "Function not defined" })
-}
+router.route('/')
+    .get(getAllUsers)
+    .post(createUser)
 
-const createUser = (req, res) => {
-    res.status(200).json({ status: "success", data: "Function not defined" })
-}
-
-const getUserById = (req, res) => {
-    res.status(200).json({ status: "success", data: "Function not defined" })
-}
-
-const updateUserById = (req, res) => {
-    res.status(200).json({ status: "success", data: "Function not defined" })
-}
-
-const deleteUserById = (req, res) => {
-    res.status(200).json({ status: "success", data: "Function not defined" })
-}
-
-
-router.route('/').get(getAllUsers).post(createUser)
-router.route('/:id').get(getUserById).patch(updateUserById).delete(deleteUserById)
+router.route('/:id')
+    .get(getUserById)
+    .patch(updateUserById)
+    .delete(deleteUserById)
 
 module.exports = router;

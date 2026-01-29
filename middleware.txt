@@ -1,0 +1,11 @@
+การใช้ middleware เพื่อเป็นการทำงานแบบทำอันแรกเสร็จแล้ว Next() ทำอะไรต่อ
+
+// app.use((req, res, next) => {
+//     console.log("hello from middleware")
+//     next()
+// })
+
+// app.use((req, res, next) => {
+//     req.requestTime = new Date().toISOString()
+//     next()
+// })
