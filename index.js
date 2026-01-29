@@ -13,12 +13,15 @@ app.get('/api/v1/students', (req, res) => {
     res.status(200).json({ status: "sucess", data: data })
 })
 
+app.get('/api/v1/students/:id', (req, res) => {
+    let id = req.params.id
+    let respone = data.find((e) => e.ID == id)
+    if (respone) {
+        res.status(200).json({ status: "success", data: respone })
+    } else {
+        res.status(400).json({ status: "Fail", message: "Data not found" })
+    }
 
-app.post('/api/v1/students', (req, res) => {
-    let body = req.body
-    console.log(body)
-    let respone = data.filter((e) => e.Name == body.name)
-    res.status(200).json(respone)
 })
 
 
@@ -27,8 +30,6 @@ app.post('/api/v1/students', (req, res) => {
 app.listen(port, () => {
     console.log("Server is running on Port 8080")
 })
-
-
 
 
 
