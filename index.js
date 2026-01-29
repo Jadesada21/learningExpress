@@ -9,19 +9,12 @@ app.use(express.json())
 
 let data = JSON.parse(fs.readFileSync('./students.txt', 'utf-8'))
 
-app.get('/api/v1/students', (req, res) => {
-    res.status(200).json({ status: "sucess", data: data })
-})
-
-app.get('/api/v1/students/:id', (req, res) => {
-    let id = req.params.id
-    let respone = data.find((e) => e.ID == id)
-    if (respone) {
-        res.status(200).json({ status: "success", data: respone })
-    } else {
-        res.status(400).json({ status: "Fail", message: "Data not found" })
+app.patch('/api/v1/students/:id', (req, res) => {
+    if (!req.params.id) {
+        res.status(400).json({ status: "Fail", message: "bad request" })
     }
 
+    res.status(200).json({ status: "Success", data: "Update successfully" })
 })
 
 
@@ -30,6 +23,11 @@ app.get('/api/v1/students/:id', (req, res) => {
 app.listen(port, () => {
     console.log("Server is running on Port 8080")
 })
+
+
+
+
+
 
 
 
