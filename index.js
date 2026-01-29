@@ -73,6 +73,31 @@ app.route('/api/v1/students').get(getStudents).post(createStudents)
 app.route('/api/v1/students/:id').get(getStudentsWithParam)
     .patch(updateStudent).delete(deleteStudents)
 
+//
+
+const getAllUsers = (req, res) => {
+    res.status(200).json({ status: "success", data: "Function not Defined" })
+}
+
+const createUsers = (req, res) => {
+    res.status(200).json({ status: "success", data: "Function not Defined" })
+}
+
+const getUserById = (req, res) => {
+    res.status(200).json({ status: "success", data: "Function not Defined" })
+}
+
+const updateUserById = (req, res) => {
+    res.status(200).json({ status: "success", data: "Function not Defined" })
+}
+
+const deleteUserById = (req, res) => {
+    res.status(200).json({ status: "success", data: "Function not Defined" })
+}
+
+app.route('/api/v1/users').get(getAllUsers).post(createUsers)
+app.route('/api/v1/users/:id').get(getUserById).patch(updateUserById).delete(deleteUserById)
+
 
 app.listen(port, () => {
     console.log("Server is running on Port 8080")
