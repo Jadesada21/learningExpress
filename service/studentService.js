@@ -35,4 +35,10 @@ const deleteStudents = (req, res) => {
     res.status(200).json({ status: "success", data: "Delete Successfully" })
 }
 
-module.exports = { getStudents, createStudents, getStudentsWithParam, updateStudent, deleteStudents };
+module.exports = {
+    getStudents,
+    createStudents,
+    getStudentsWithParam,
+    updateStudent,
+    deleteStudents
+};

@@ -18,4 +18,17 @@ const deleteUserById = (req, res) => {
     res.status(200).json({ status: "success", data: "Function not defined" })
 }
 
-module.exports = { getAllUsers, createUser, getUserById, updateUserById, deleteUserById };
+const checkID = (req, res, next, val) => {
+    if (Number(val) <= 0) {
+        res.status(400).json({ status: "success", data: "Bad Request" })
+    }
+}
+
+module.exports = {
+    getAllUsers,
+    createUser,
+    getUserById,
+    updateUserById,
+    deleteUserById,
+    checkID
+};

@@ -3,8 +3,13 @@ const router = express.Router()
 const fs = require('fs')
 const studentService = require('../service/studentService')
 
-const { getStudents, createStudents, getStudentsWithParam, updateStudent, deleteStudents }
-    = studentService
+const {
+    getStudents,
+    createStudents,
+    getStudentsWithParam,
+    updateStudent,
+    deleteStudents
+} = studentService
 
 // best practice
 router.route('/')
@@ -19,9 +24,6 @@ router.route('/:id')
 
 module.exports = router;
 
-// app.listen(port, () => {
-//     console.log("Server is running on Port 8080")
-// })
 
 
 // better practice
