@@ -1,29 +1,34 @@
+const express = require('express')
+const app = express()
 const dotenv = require('dotenv')
 dotenv.config({ path: './config.env' })
-const { Pool } = require('pg')
+const port = process.env.PORT
+const morgan = require('morgan')
 
 
-const pool = new Pool({
-    // user: "neondb_owner",
-    // host: "ep-delicate-night-a1f1rioj-pooler.ap-southeast-1.aws.neon.tech",
-    // database: "neondb",
-    // password: "npg_8WkuhYnFVb2v",
-    // port: "5432",
 
-    user: process.env.DB_USER,
-    host: process.env.DB_HOST,
-    database: process.env.DB_NAME,
-    password: process.env.DB_PASSWORD,
-    port: process.env.DB_PORT,
+// console.log(process.env)
+console.log('NODE_ENV:', process.env.NODE_ENV)
+console.log('PORT:', process.env.PORT)
+console.log('USERNAME:', process.env.USERNAME)
+console.log('PASSWORD:', process.env.PASSWORD)
 
-    ssl: {
-        rejectUnauthorized: false,
-    },
-})
 
-module.exports = pool
+const studentsRouters = require('./router/students')
+const usersRouters = require('./router/users')
 
-console.log({
-    DB_USER: process.env.DB_USER,
-    DB_NAME: process.env.DB_NAME,
+app.use(express.json());
+
+// 3rd party middleware
+app.use(morgan('dev'))
+
+app.use(express.static('./public'))
+
+app.use('/api/v1/students', studentsRouters)
+app.use('/api/v1/users', usersRouters)
+
+
+
+app.listen(port, () => {
+    console.log(`Server is running on port ${port}`)
 })
