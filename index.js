@@ -7,10 +7,22 @@ const port = 8080
 
 app.use(express.json())
 
+// middleware = do this and next last next = route > response
+app.use((req, res, next) => {
+    console.log("hello from middleware")
+    next()
+})
+
+app.use((req, res, next) => {
+    req.requestTime = new Date().toISOString()
+    next()
+})
+
+
 let data = JSON.parse(fs.readFileSync('./students.txt', 'utf-8'))
 
 const getStudents = (req, res) => {
-    res.status(200).json({ status: "success", data: data })
+    res.status(200).json({ status: "success", requestAt: req.requestTime, data: data })
 }
 
 const getStudentsWithParam = (req, res) => {
