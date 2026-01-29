@@ -7,11 +7,11 @@ const morgan = require('morgan')
 
 
 
-// console.log(process.env)
-console.log('NODE_ENV:', process.env.NODE_ENV)
-console.log('PORT:', process.env.PORT)
-console.log('USERNAME:', process.env.USERNAME)
-console.log('PASSWORD:', process.env.PASSWORD)
+console.log(process.env)
+// console.log('NODE_ENV:', process.env.NODE_ENV)
+// console.log('PORT:', process.env.PORT)
+// console.log('USERNAME:', process.env.USERNAME)
+// console.log('PASSWORD:', process.env.PASSWORD)
 
 
 const studentsRouters = require('./router/students')

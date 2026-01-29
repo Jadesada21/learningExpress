@@ -1,4 +1,11 @@
-const getAllUsers = (req, res) => {
+const pool = require('../db/pool.js')
+
+const getAllUsers = async (req, res) => {
+    console.log("API getAllUsers called")
+
+    let sql = 'SELECT NOW()'
+    let response = await pool.query(sql)
+    console.log(response)
     res.status(200).json({ status: "success", data: "Function not defined" })
 }
 
