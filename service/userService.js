@@ -29,8 +29,17 @@ const createUser = async (req, res) => {
 }
 
 
-const getUserById = (req, res) => {
-    res.status(200).json({ status: "success", data: "Function not defined" })
+const getUserById = async (req, res) => {
+    let { id } = req.params
+    let sql = 'SELECT * FROM public.customers WHERE customerid = $1'
+    let response = await pool.query(sql, [id])
+    console.log(response)
+    if (response.rowCount > 0) {
+        res.status(200).json({ status: "success", data: response.rows[0] })
+    } else {
+        res.status(200).json({ status: "Failed", data: "Data not found" })
+    }
+
 }
 
 const updateUserById = (req, res) => {
