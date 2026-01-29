@@ -9,8 +9,22 @@ const getAllUsers = async (req, res) => {
     res.status(200).json({ status: "success", data: "Function not defined" })
 }
 
-const createUser = (req, res) => {
-    res.status(200).json({ status: "success", data: "Function not defined" })
+const createUser = async (req, res) => {
+    let body = req.body
+    console.log(body)
+    let sql = `INSERT INTO public.customers
+(customerid, firstname, lastname, email, city, job)
+VALUES(${body.id}, '${body.firstname}', '${body.lastname}', '${body.email}', '${body.city}', '${body.job}');`
+    console.log(sql);
+    let response = await pool.query(sql)
+    console.log(response)
+    if (response.rowCount > 0) {
+        res.status(200).json({ status: "success", data: "Insert data success" })
+    } else {
+        res.status(400).json({ status: "Failed", data: "Insert data Failed" })
+    }
+
+
 }
 
 const getUserById = (req, res) => {
