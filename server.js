@@ -5,7 +5,7 @@ dotenv.config({ path: './config.env' })
 const port = process.env.PORT
 const morgan = require('morgan')
 
-
+const errors = require('./utils/errors')
 console.log('PORT:', process.env.PORT)
 
 
@@ -33,16 +33,7 @@ app.use('/:path', (req, res, next) => {
     next(err)
 })
 
-app.use((err, req, res, next) => {
-    err.statusCode = err.statusCode || 500;
-    err.status = err.status || 'Fail'
-    res.status(err.statusCode).json(
-        {
-            status: err.statusCode,
-            message: err.status
-        }
-    )
-})
+app.use(errors.ApiError)
 
 app.listen(port, () => {
     console.log(`Server is running on port ${port}`)

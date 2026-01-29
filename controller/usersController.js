@@ -1,6 +1,7 @@
 const userService = require('../service/userService')
+const errors = require('../utils/errors')
 
-const getAllUsers = async (req, res) => {
+const getAllUsers = async (req, res, next) => {
     try {
         let response = await userService.getAllUsersService()
         if (response.rowCount > 0) {
@@ -9,11 +10,13 @@ const getAllUsers = async (req, res) => {
             res.status(200).json({ status: "Fail", data: "Data not found" })
         }
     } catch (err) {
-        res.status(500).json({ status: "error", message: err.message })
+        // res.status(500).json({ status: "error", message: err.message })
+        console.log(err.message)
+        errors.mapError(500, "internal server error", next)
     }
 }
 
-const createUser = async (req, res) => {
+const createUser = async (req, res, next) => {
     // check input value ก่อนจะส่งไปให้ service
     const { firstname, lastname, email, city, job } = req.body
 
@@ -30,25 +33,30 @@ const createUser = async (req, res) => {
             res.status(400).json({ status: "Failed", data: "Insert data Failed" })
         }
     } catch (err) {
-        res.status(500).json({ status: "error", message: err.message })
+        // res.status(500).json({ status: "error", message: err.message })
+        console.log(err.message)
+        errors.mapError(500, "internal server error", next)
     }
 }
 
-const getUserById = async (req, res) => {
+const getUserById = async (req, res, next) => {
     const { id } = req.params
     try {
         let response = await userService.getUserByIdService(id)
         if (response.rowCount > 0) {
             res.status(200).json({ status: "success", data: response.rows[0] })
         } else {
-            res.status(200).json({ status: "Failed", data: "Data not found" })
+            // res.status(200).json({ status: "Failed", data: "Data not found" })
+            errors.mapError(404, "Find data not found", next)
         }
     } catch (err) {
-        res.status(500).json({ status: "error", message: err.message })
+        // res.status(500).json({ status: "error", message: err.message })
+        console.log(err.message)
+        errors.mapError(500, "internal server error", next)
     }
 }
 
-const updateUserById = async (req, res) => {
+const updateUserById = async (req, res, next) => {
     const { id } = req.params
     try {
         let response = await userService.updateUserByIdService(id, req.body)
@@ -59,11 +67,13 @@ const updateUserById = async (req, res) => {
             res.status(200).json({ status: "Failed", data: "Update failed" })
         }
     } catch (err) {
-        res.status(500).json({ status: "error", message: err.message })
+        // res.status(500).json({ status: "error", message: err.message })
+        console.log(err.message)
+        errors.mapError(500, "internal server error", next)
     }
 }
 
-const deleteUserById = async (req, res) => {
+const deleteUserById = async (req, res, next) => {
     const { id } = req.params
     try {
         const rowCount = await userService.deleteUserByIdService(id);
@@ -73,7 +83,9 @@ const deleteUserById = async (req, res) => {
             res.status(200).json({ status: "Failed", data: "Delete data Failed" })
         }
     } catch (err) {
-        res.status(500).json({ status: "error", message: err.message })
+        // res.status(500).json({ status: "error", message: err.message })
+        console.log(err.message)
+        errors.mapError(500, "internal server error", next)
     }
 }
 
