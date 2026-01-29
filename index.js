@@ -1,23 +1,23 @@
 const express = require('express')
 const fs = require('fs')
+const morgan = require('morgan')
 
 const app = express();
 const port = 8080
 
 
 app.use(express.json())
+app.use(morgan('dev'))
 
-// middleware = do this and next last next = route > response
-app.use((req, res, next) => {
-    console.log("hello from middleware")
-    next()
-})
+// app.use((req, res, next) => {
+//     console.log("hello from middleware")
+//     next()
+// })
 
-app.use((req, res, next) => {
-    req.requestTime = new Date().toISOString()
-    next()
-})
-
+// app.use((req, res, next) => {
+//     req.requestTime = new Date().toISOString()
+//     next()
+// })
 
 let data = JSON.parse(fs.readFileSync('./students.txt', 'utf-8'))
 
