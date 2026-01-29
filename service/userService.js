@@ -42,8 +42,19 @@ const getUserById = async (req, res) => {
 
 }
 
-const updateUserById = (req, res) => {
-    res.status(200).json({ status: "success", data: "Function not defined" })
+const updateUserById = async (req, res) => {
+    let { id } = req.params
+    let body = req.body
+    let sql = `update customers
+    set firstname = $1 , lastname = $2 , email = $3 , city = $4 , job = $5
+    where customerID = $6`
+    let response = await pool.query(sql, [body.firstname, body.lastname, body.email, body.city, body.job, id])
+    console.log(response)
+    if (response.rowCount > 0) {
+        res.status(200).json({ status: "success", data: "Update data Success" })
+    } else {
+        res.status(200).json({ status: "Failed", data: "Update failed" })
+    }
 }
 
 const deleteUserById = (req, res) => {
