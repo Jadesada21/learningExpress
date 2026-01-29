@@ -1,6 +1,6 @@
 const express = require('express')
 const router = express.Router()
-const userService = require('../service/userService')
+const userController = require('../controller/usersController')
 
 const {
     getAllUsers,
@@ -8,14 +8,13 @@ const {
     getUserById,
     updateUserById,
     deleteUserById,
-    checkID2
-} = userService
+} = userController
 
 
 router.route('/')
     .get(getAllUsers).post(createUser)
 
 router.route('/:id')
-    .get(checkID2, getUserById).patch(updateUserById).delete(deleteUserById)
+    .get(getUserById).patch(updateUserById).delete(deleteUserById)
 
 module.exports = router;

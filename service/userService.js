@@ -1,64 +1,85 @@
 const pool = require('../db/pool.js')
 
-const getAllUsers = async (req, res) => {
-    let sql = 'SELECT * from public.customers'
-    let response = await pool.query(sql)
-    console.log(response)
-    if (response.rowCount > 0) {
-        res.status(200).json({ status: "success", data: response.rows })
-    } else {
-        res.status(200).json({ status: "Fail", data: "Data not found" })
+const getAllUsersService = async () => {
+    try {
+        let sql = 'SELECT * from public.customers'
+        let response = await pool.query(sql)
+        console.log(response)
+        return response
+    } catch (err) {
+        console.error('getallusersservice error:', err)
+        throw err
     }
 }
 
 
-const createUser = async (req, res) => {
-    let body = req.body
-    console.log(body)
-    let sql = `INSERT INTO public.customers
+const createUserService = async (body) => {
+    try {
+        let sql = `INSERT INTO public.customers
     (firstname, lastname, email, city, job)
-    VALUES('${body.firstname}', '${body.lastname}', '${body.email}', '${body.city}', '${body.job}');`
-    console.log(sql);
-    let response = await pool.query(sql)
-    console.log(response)
-    if (response.rowCount > 0) {
-        res.status(200).json({ status: "success", data: "Insert data success" })
-    } else {
-        res.status(400).json({ status: "Failed", data: "Insert data Failed" })
+    VALUES($1 , $2 , $3 , $4 , $5);`
+        let response = await pool.query(sql, [
+            body.firstname,
+            body.lastname,
+            body.email,
+            body.city,
+            body.job
+        ])
+        console.log(response)
+        return response
+    } catch (err) {
+        console.error('createUserService error:', err)
+        throw err
     }
 }
 
 
-const getUserById = async (req, res) => {
-    let { id } = req.params
-    let sql = 'SELECT * FROM public.customers WHERE customerid = $1'
-    let response = await pool.query(sql, [id])
-    console.log(response)
-    if (response.rowCount > 0) {
-        res.status(200).json({ status: "success", data: response.rows[0] })
-    } else {
-        res.status(200).json({ status: "Failed", data: "Data not found" })
+const getUserByIdService = async (id) => {
+    try {
+        let sql = 'SELECT * FROM public.customers WHERE customerid = $1'
+        let response = await pool.query(sql, [id])
+        console.log(response)
+        return response
+    } catch (err) {
+        console.error('getUserByIdService error:', err)
+        throw err
     }
-
 }
 
-const updateUserById = async (req, res) => {
-    let { id } = req.params
-    let body = req.body
-    let sql = `update customers
+
+const updateUserByIdService = async (id, body) => {
+    try {
+        let sql = `update customers
     set firstname = $1 , lastname = $2 , email = $3 , city = $4 , job = $5
     where customerID = $6`
-    let response = await pool.query(sql, [body.firstname, body.lastname, body.email, body.city, body.job, id])
-    console.log(response)
-    if (response.rowCount > 0) {
-        res.status(200).json({ status: "success", data: "Update data Success" })
-    } else {
-        res.status(200).json({ status: "Failed", data: "Update failed" })
+        let response = await pool.query(sql, [
+            body.firstname,
+            body.lastname,
+            body.email,
+            body.city,
+            body.job,
+            id
+        ])
+        console.log(response)
+        return response
+    } catch (err) {
+        console.error('updateUserByIdService error:', err)
+        throw err
     }
+
 }
 
-const deleteUserById = (req, res) => {
-    res.status(200).json({ status: "success", data: "Function not defined" })
+const deleteUserByIdService = async (id) => {
+    try {
+        let sql = `delete from customers where customerID = $1`
+        let response = await pool.query(sql, [id])
+        console.log(response)
+        return response.rowCount
+    } catch (err) {
+        console.error('updateUserByIdService error:', err)
+        throw err
+    }
+
 }
 
 const checkID2 = (req, res, next,) => {
@@ -69,10 +90,10 @@ const checkID2 = (req, res, next,) => {
 }
 
 module.exports = {
-    getAllUsers,
-    createUser,
-    getUserById,
-    updateUserById,
-    deleteUserById,
+    getAllUsersService,
+    createUserService,
+    getUserByIdService,
+    updateUserByIdService,
+    deleteUserByIdService,
     checkID2
 };
