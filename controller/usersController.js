@@ -21,7 +21,8 @@ const createUser = async (req, res, next) => {
     const { firstname, lastname, email, city, job } = req.body
 
     if (!firstname || !lastname || !email || !city || !job) {
-        return res.status(400).json({ status: "error", message: 'missing require fields' })
+        // return res.status(400).json({ status: "error", message: 'missing require fields' })
+        errors.mapError(404, "Missing require fields")
     }
 
     try {
@@ -40,8 +41,12 @@ const createUser = async (req, res, next) => {
 }
 
 const getUserById = async (req, res, next) => {
-    const { id } = req.params
     try {
+        let { id } = req.params
+        id = Number(id)
+        if (Number.isNaN(id)) {
+            errors.mapError(404, "Request param invalid type", next)
+        }
         let response = await userService.getUserByIdService(id)
         if (response.rowCount > 0) {
             res.status(200).json({ status: "success", data: response.rows[0] })
@@ -57,8 +62,12 @@ const getUserById = async (req, res, next) => {
 }
 
 const updateUserById = async (req, res, next) => {
-    const { id } = req.params
     try {
+        let { id } = req.params
+        id = Number(id)
+        if (Number.isNaN(id)) {
+            errors.mapError(404, "Request param invalid type", next)
+        }
         let response = await userService.updateUserByIdService(id, req.body)
         console.log(response)
         if (response.rowCount > 0) {
@@ -74,8 +83,12 @@ const updateUserById = async (req, res, next) => {
 }
 
 const deleteUserById = async (req, res, next) => {
-    const { id } = req.params
     try {
+        let { id } = req.params
+        id = Number(id)
+        if (Number.isNaN(id)) {
+            errors.mapError(404, "Request param invalid type", next)
+        }
         const rowCount = await userService.deleteUserByIdService(id);
         if (rowCount > 0) {
             res.status(200).json({ status: "success", data: "Delete data success" })
