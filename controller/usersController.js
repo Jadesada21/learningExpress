@@ -14,12 +14,19 @@ const getAllUsers = async (req, res) => {
 }
 
 const createUser = async (req, res) => {
+    // check input value ก่อนจะส่งไปให้ service
+    const { firstname, lastname, email, city, job } = req.body
+
+    if (!firstname || !lastname || !email || !city || !job) {
+        return res.status(400).json({ status: "error", message: 'missing require fields' })
+    }
+
     try {
         let response = await userService.createUserService(req.body)
+
         if (response.rowCount > 0) {
             res.status(200).json({ status: "success", data: "Insert data success" })
         } else {
-            s(200)
             res.status(400).json({ status: "Failed", data: "Insert data Failed" })
         }
     } catch (err) {
