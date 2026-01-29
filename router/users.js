@@ -8,15 +8,14 @@ const {
     getUserById,
     updateUserById,
     deleteUserById,
-    checkID
+    checkID2
 } = userService
 
-router.param('id', checkID)
 
 router.route('/')
     .get(getAllUsers).post(createUser)
 
 router.route('/:id')
-    .get(getUserById).patch(updateUserById).delete(deleteUserById)
+    .get(checkID2, getUserById).patch(updateUserById).delete(deleteUserById)
 
 module.exports = router;

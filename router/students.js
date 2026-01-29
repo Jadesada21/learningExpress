@@ -13,13 +13,10 @@ const {
 
 // best practice
 router.route('/')
-    .get(getStudents)
-    .post(createStudents)
+    .get(getStudents).post(createStudents)
 
 router.route('/:id')
-    .get(getStudentsWithParam)
-    .patch(updateStudent)
-    .delete(deleteStudents)
+    .get(getStudentsWithParam).patch(updateStudent).delete(deleteStudents)
 
 
 module.exports = router;
